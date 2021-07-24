@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Own
     'users',
+    'pages',
 ]
 
 MIDDLEWARE = [
