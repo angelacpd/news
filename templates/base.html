@@ -7,15 +7,48 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootsrtrap/4.0.0/css/bootstrap.min.css"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
           crossorigin="anonymous"
     >
 
-    <title>Newspaper App</title>
+    <title>{% block title %}Newspaper App {% endblock title %}</title>
 </head>
 <body>
-    <h1>Hello, world!</h1>
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+        <a class="navbar-brand" href="{% url 'home' %}">Newspaper</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+                aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            {% if user.is_authenticated %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">
+                            {{ user.username }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
+                            <a class="dropdown-item" href="{% url 'password_change' %}">Change password</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="{% url 'logout' %}">Log out</a>
+                        </div>
+                    </li>
+                </ul>
+            {% else %}
+                <form class="form-inline ml-auto">
+                    <a href="{% url 'login' %}" class="btn btn-outline-secondary">Log in</a>
+                    <a href="{% url 'signup' %}" class="btn btn-primary ml-2">Sign up</a>
+                </form>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+    {% block content %}
+    {% endblock %}
+    </div>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -31,12 +64,6 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"
     ></script>
-
-
-    <main>
-        {% block content %}
-        {% endblock %}
-    </main>
 
 </body>
 </html>
